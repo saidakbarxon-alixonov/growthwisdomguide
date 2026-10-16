@@ -21,6 +21,14 @@
        - This project was created as part of my backend development learning journey.
         It helps me practice Django, authentication, database design, and web application development.
 
+                        🚀 Installation   
+                            - Clone the repository: git clone https://github.com/alixonovsaidakbarxon3-a11y/growthwisdomguide.git
+                            - cd growthwisdomguide
+                            - pip install -r requirements.txt
+                            - python manage.py migrate
+                            - python manage.py runserver
+                            
+
                         🖼  Screenshots
 
     - Home page:
