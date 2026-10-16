@@ -1,0 +1,21 @@
+{% load book_extras %}
+{# Optional: include with accent_id=<category id> to colour the card like that category #}
+{% with categories=book.categories.all %}
+<a class="book-card hue-{{ accent_id|default:book.primary_category_id|hue }}" href="{{ book.get_absolute_url }}" data-initial="{{ book.title|slice:':1' }}">
+    <div class="book-card__body">
+        {% if categories %}
+            <div class="chips">
+                {% for category in categories|slice:':2' %}<span class="chip">{{ category.name }}</span>{% endfor %}
+                {% if categories|length > 2 %}<span class="chip chip--more">+{{ categories|length|add:'-2' }}</span>{% endif %}
+            </div>
+        {% endif %}
+        <h3 class="book-card__title">{{ book.title }}</h3>
+        <p class="book-card__author"><i>by</i> {{ book.author }}</p>
+        {% if book.description %}<p class="book-card__blurb">{{ book.description|truncatewords:22 }}</p>{% endif %}
+    </div>
+    <span class="book-card__cta">
+        Open book
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5.500L19.500 12 14 17.500"/></svg>
+    </span>
+</a>
+{% endwith %}

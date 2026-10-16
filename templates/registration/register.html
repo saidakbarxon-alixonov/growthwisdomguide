@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sign up | GrowthWisdomGuide{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <img class="auth-logo" src="{% static 'img/logo.svg' %}" alt="" width="56" height="56">
+      <h1>Create your account</h1>
+      <p>Build a reading list you will actually use.</p>
+    </div>
+
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="auth-field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<small class="field-help">{{ field.help_text|safe }}</small>{% endif %}
+          {% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary auth-btn">Create account</button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a class="text-link" href="{% url 'my_books:login' %}">Log in</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

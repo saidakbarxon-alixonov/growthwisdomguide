@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load book_extras %}
+{% block title %}{{ book.title }} | GrowthWisdomGuide{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'my_books:book_list' %}">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m5-5.500L4.500 12 10 17.500"/></svg>
+    All books
+</a>
+
+<article class="book-hero hue-{{ book.primary_category.id|hue }}">
+    <div class="cover" aria-hidden="true">
+        <span class="cover__title">{{ book.title }}</span>
+        <span class="cover__author">{{ book.author }}</span>
+    </div>
+
+    <div class="book-hero__info">
+        {% with categories=book.categories.all %}
+            {% if categories %}
+                <div class="chips">
+                    {% for category in categories %}
+                        <a class="chip chip--link" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <h1 class="detail-title">{{ book.title }}</h1>
+        <p class="detail-author"><i>by</i> {{ book.author }}</p>
+
+        <!-- Actions sit right under the title so they are visible without scrolling -->
+        <div class="book-actions">
+            {% if book.status == 'published' %}
+            <details class="share">
+                <summary class="btn btn-primary share__toggle">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.500"/><circle cx="6" cy="12" r="2.500"/><circle cx="18" cy="19" r="2.500"/><path d="m8.200 10.800 7.600-4.400M8.200 13.200l7.600 4.400"/></svg>
+                    Share
+                </summary>
+                <div class="share__menu">
+                    <button type="button" class="share__item" data-copy-link="{{ share_url }}">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.500"/><path d="M5 15V6.500A2.500 2.500 0 0 1 7.500 4H15"/></svg>
+                        <span data-copy-label>Copy link</span>
+                    </button>
+                    <a class="share__item" target="_blank" rel="noopener noreferrer"
+                       href="https://t.me/share/url?url={{ share_url|urlencode:'' }}&amp;text={{ share_text|urlencode:'' }}">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3 11l5.500 2L10 19l3-4 4.500 3.500Z M8.500 13 21 4"/></svg>
+                        Telegram
+                    </a>
+                    <a class="share__item" target="_blank" rel="noopener noreferrer"
+                       href="https://wa.me/?text={{ share_text|add:' '|add:share_url|urlencode:'' }}">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.300-4.200A8 8 0 1 1 8.300 19Z"/></svg>
+                        WhatsApp
+                    </a>
+                    <a class="share__item" href="{% url 'my_books:share_book' book.slug %}">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.500"/><path d="m4 7 8 6 8-6"/></svg>
+                        Email a friend
+                    </a>
+                </div>
+            </details>
+            {% endif %}
+
+            {% if can_edit %}
+            <a class="btn btn-ghost" href="{% url 'my_books:edit_book' book.slug %}">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9a2.800 2.800 0 0 0-4-4L4 16Z M13.500 6.500l4 4"/></svg>
+                Edit
+            </a>
+            {% endif %}
+        </div>
+
+        <div class="detail-description">
+            {% if book.description %}
+                {{ book.description|linebreaks }}
+            {% else %}
+                <p class="muted">No description yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</article>
+
+<section class="comments" aria-label="Comments">
+    <details class="comment-accordion"{% if new_comment or comment_form.errors %} open{% endif %}>
+        <summary class="comment-toggle-btn">Add a comment</summary>
+        <div class="comment-form-content">
+            {% if new_comment %}
+                <p class="success-message">Thanks, your comment is posted.</p>
+            {% else %}
+                <form method="post" class="stack">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Post comment</button>
+                </form>
+            {% endif %}
+        </div>
+    </details>
+
+    <details class="comment-accordion" open>
+        <summary class="comment-toggle-btn">
+            {% with comments.count as total %}{{ total }} comment{{ total|pluralize }}{% endwith %}
+        </summary>
+        <div class="comment-form-content">
+            {% for comment in comments %}
+                <div class="comment-card">
+                    <p class="comment-info"><strong>{{ comment.name }}</strong> <span>{{ comment.created|date:"M d, Y" }}</span></p>
+                    <div class="comment-body">{{ comment.body|linebreaks }}</div>
+                </div>
+            {% empty %}
+                <p class="muted">No comments yet. Be the first to share what you took from this book.</p>
+            {% endfor %}
+        </div>
+    </details>
+</section>
+{% endblock %}

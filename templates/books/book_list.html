@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}{% if q %}Results for "{{ q }}"{% else %}All books{% endif %} | GrowthWisdomGuide{% endblock %}
+
+{% block content %}
+<header class="page-head">
+    <h1 class="page-title">{% if q %}Results for “{{ q }}”{% else %}All books{% endif %}</h1>
+    <p class="page-lede">
+        {% if q %}
+            {{ paginator.count }} book{{ paginator.count|pluralize }} found.
+            <a class="text-link" href="{% url 'my_books:book_list' %}">Clear search</a>
+        {% else %}
+            {{ paginator.count }} self-development book{{ paginator.count|pluralize }}, newest first.
+        {% endif %}
+    </p>
+    <div class="page-actions">
+        <a href="{% url 'my_books:add_book' %}" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Add a book
+        </a>
+    </div>
+</header>
+
+<div class="book-grid">
+    {% for book in books %}
+        {% include 'includes/book_card.html' %}
+    {% empty %}
+        <div class="empty empty--wide">
+            <h2>{% if q %}Nothing matches “{{ q }}”{% else %}No books yet{% endif %}</h2>
+            <p>{% if q %}Try a different title, author or topic.{% else %}Add the first book you want to learn from.{% endif %}</p>
+            <a href="{% url 'my_books:add_book' %}" class="btn btn-primary">Add a book</a>
+        </div>
+    {% endfor %}
+</div>
+
+{% include 'includes/pager.html' %}
+
+<p class="empty" id="no-results" hidden>No books on this page match your search. Press Enter to search the whole library.</p>
+{% endblock %}

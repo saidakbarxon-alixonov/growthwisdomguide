@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="GrowthWisdomGuide logo">
+  <defs>
+    <linearGradient id="gwg-bg" x1="4" y1="2" x2="44" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <!-- badge -->
+  <rect width="48" height="48" rx="14" fill="url(#gwg-bg)"/>
+  <!-- open book: two pages meeting at the spine -->
+  <path d="M23 40C19.5 36.5 13 35.5 8 36.5V24C13 23 19.5 24 23 27.5Z" fill="#0f172a"/>
+  <path d="M25 40C28.5 36.5 35 35.5 40 36.5V24C35 23 28.5 24 25 27.5Z" fill="#0f172a"/>
+  <!-- sprout growing out of the book -->
+  <path d="M24 27V15" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <path d="M24 19.5C19.2 20 16 17 15.5 12.5C20.3 12.3 23.5 14.6 24 19.5Z" fill="#fff"/>
+  <path d="M24 15.5C28.2 15.6 31.2 13 31.8 8.8C27.6 8.6 24.5 11 24 15.5Z" fill="#fff"/>
+</svg>

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}{% if editing %}Edit {{ book.title }}{% else %}Add a book{% endif %} | GrowthWisdomGuide{% endblock %}
+
+{% block content %}
+<div class="form-page">
+    <header class="page-head page-head--tight">
+        <h1 class="page-title">{% if editing %}Edit book{% else %}Add a book{% endif %}</h1>
+        <p class="page-lede">
+            {% if editing %}Update the details or change the categories of <strong>{{ book.title }}</strong>.
+            {% else %}Share a book that changed how you work or think.{% endif %}
+        </p>
+    </header>
+
+    <form method="post" class="panel stack" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="auth-alert">{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div>
+        {% endif %}
+
+        <div class="form-row">
+            <div class="field">
+                <label for="{{ form.title.id_for_label }}">Title</label>
+                {{ form.title }}
+                {% for error in form.title.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            <div class="field">
+                <label for="{{ form.author.id_for_label }}">Author</label>
+                {{ form.author }}
+                {% for error in form.author.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="{{ form.description.id_for_label }}">Description</label>
+            {{ form.description }}
+            {% for error in form.description.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </div>
+
+        <!-- Categories: click as many as you like, and/or type new ones -->
+        <fieldset class="field pick-field">
+            <legend>Categories</legend>
+            <div class="pick-list">
+                {% for checkbox in form.categories %}
+                    <label class="pick" for="{{ checkbox.id_for_label }}">
+                        <input type="checkbox" name="{{ checkbox.data.name }}" value="{{ checkbox.data.value }}"
+                               id="{{ checkbox.id_for_label }}"{% if checkbox.data.selected %} checked{% endif %}>
+                        <span>{{ checkbox.choice_label }}</span>
+                    </label>
+                {% empty %}
+                    <p class="field-help">No categories yet. Type your first ones below.</p>
+                {% endfor %}
+            </div>
+            {% for error in form.categories.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </fieldset>
+
+        <div class="field">
+            <label for="{{ form.new_categories.id_for_label }}">{{ form.new_categories.label }}</label>
+            {{ form.new_categories }}
+            {% for error in form.new_categories.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            <span class="field-help">Not in the list? Type new ones, separated by commas. They are added together with the ticked ones.</span>
+        </div>
+
+        <div class="field field--narrow">
+            <label for="{{ form.status.id_for_label }}">Status</label>
+            {{ form.status }}
+            {% for error in form.status.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            <span class="field-help">Only published books appear in the library.</span>
+        </div>
+
+        <div class="form-actions">
+            <a href="{% if editing %}{{ book.get_absolute_url }}{% else %}{% url 'my_books:book_list' %}{% endif %}" class="btn btn-ghost">Cancel</a>
+            <button type="submit" class="btn btn-primary">{% if editing %}Save changes{% else %}Add book{% endif %}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

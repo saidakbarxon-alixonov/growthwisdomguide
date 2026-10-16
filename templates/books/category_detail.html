@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load book_extras %}
+{% block title %}{{ category.name }} books | GrowthWisdomGuide{% endblock %}
+
+{% block content %}
+<a class="back-link" href="{% url 'my_books:index' %}">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m5-5.500L4.500 12 10 17.500"/></svg>
+    Home
+</a>
+
+<header class="page-head hue-{{ category.pk|hue }}">
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Category</p>
+    <h1 class="page-title">{{ category.name }}</h1>
+    <p class="page-lede">{{ paginator.count }} book{{ paginator.count|pluralize }} in this category.</p>
+    <div class="page-actions">
+        <a href="{% url 'my_books:add_book' %}?category={{ category.pk }}" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Add a {{ category.name }} book
+        </a>
+        <a href="{% url 'my_books:book_list' %}" class="btn btn-ghost">All books</a>
+    </div>
+</header>
+
+<div class="book-grid">
+    {% for book in books %}
+        {% include 'includes/book_card.html' with accent_id=category.pk %}
+    {% empty %}
+        <div class="empty empty--wide">
+            <h2>No books in {{ category.name }} yet</h2>
+            <p>Be the first to add one.</p>
+            <a href="{% url 'my_books:add_book' %}?category={{ category.pk }}" class="btn btn-primary">Add a book</a>
+        </div>
+    {% endfor %}
+</div>
+
+{% include 'includes/pager.html' %}
+
+<p class="empty" id="no-results" hidden>No books on this page match your search. Press Enter to search the whole library.</p>
+{% endblock %}

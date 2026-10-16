@@ -1,0 +1,78 @@
+{% load static book_extras %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GrowthWisdomGuide{% endblock %}</title>
+    <meta name="theme-color" content="#0f172a">
+    <meta name="color-scheme" content="dark">
+    <meta name="darkreader-lock">
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/logo.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/main_style.css' %}">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+
+{% with current=request.resolver_match.url_name %}
+<div class="shell">
+
+    <!-- LEFT SIDEBAR: brand + navigation -->
+    <aside class="rail">
+        <div>
+            <a class="brand" href="{% url 'my_books:index' %}" aria-label="GrowthWisdomGuide, home">
+                <img class="brand__mark" src="{% static 'img/logo.svg' %}" alt="" width="44" height="44">
+                <span class="brand__name">GrowthWisdomGuide</span>
+            </a>
+            <p class="brand__tag">Transform knowledge into growth</p>
+        </div>
+
+        <nav class="rail__nav" aria-label="Main">
+            <a class="nav-link{% if current == 'index' %} is-active{% endif %}" href="{% url 'my_books:index' %}">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 10v9.5h4.5v-5h4v5h4.5V10"/></svg>
+                Home
+            </a>
+            <a class="nav-link{% if current == 'book_list' %} is-active{% endif %}" href="{% url 'my_books:book_list' %}">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C7 4.5 10 5 12 7c2-2 5-2.500 8-1.500V18c-3-1-6-.5-8 1.500-2-2-5-2.500-8-1.500Z M12 7v12.500"/></svg>
+                All books
+            </a>
+
+            <p class="nav-heading">Categories</p>
+
+            {% for category in categories %}
+                <a class="nav-link nav-link--cat hue-{{ category.id|hue }}{% if current == 'category_detail' and request.resolver_match.kwargs.pk == category.id %} is-active{% endif %}"
+                   href="{{ category.get_absolute_url }}"
+                   {% if current == 'category_detail' and request.resolver_match.kwargs.pk == category.id %}aria-current="page"{% endif %}>
+                    <span class="dot" aria-hidden="true"></span>
+                    <span class="nav-link__label">{{ category.name }}</span>
+                    <span class="nav-link__count">{{ category.book_count }}</span>
+                </a>
+            {% empty %}
+                <p class="nav-empty">No categories yet. They appear when you add a book.</p>
+            {% endfor %}
+        </nav>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="stage" id="content">
+        {% include 'includes/navbar.html' %}
+
+        {% if messages %}
+        <div class="flash-list" role="status">
+            {% for message in messages %}
+                <p class="flash flash--{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="stage__content">
+            {% block content %}{% endblock %}
+        </div>
+
+        {% include 'includes/footer.html' %}
+    </main>
+</div>
+{% endwith %}
+
+<script src="{% static 'js/main_scripts.js' %}"></script>
+</body>
+</html>

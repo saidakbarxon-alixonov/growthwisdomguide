@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load book_extras %}
+{% block title %}Your growth library | GrowthWisdomGuide{% endblock %}
+
+{% block content %}
+<header class="page-head">
+    <h1 class="page-title">Your growth library</h1>
+    <p class="page-lede">Step-by-step frameworks for mastering habits, mindset, and focus.</p>
+    <div class="page-actions">
+        <a href="{% url 'my_books:add_book' %}" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Add a book
+        </a>
+        <a href="{% url 'my_books:book_list' %}" class="btn btn-ghost">Browse all books</a>
+    </div>
+</header>
+
+{# One short shelf (a single row) per category. "View all" opens the category page. #}
+{% for shelf in shelves %}
+<section class="shelf hue-{{ shelf.category.pk|hue }}" id="category-{{ shelf.category.pk }}">
+    <header class="shelf__head">
+        <span class="dot" aria-hidden="true"></span>
+        <h2 class="shelf__title"><a href="{{ shelf.category.get_absolute_url }}">{{ shelf.category.name }}</a></h2>
+        <a class="shelf__more" href="{{ shelf.category.get_absolute_url }}">
+            View all {{ shelf.category.book_count }} book{{ shelf.category.book_count|pluralize }}
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5.500L19.500 12 14 17.500"/></svg>
+        </a>
+    </header>
+
+    <div class="book-grid">
+        {% for book in shelf.books %}
+            {% include 'includes/book_card.html' with accent_id=shelf.category.pk %}
+        {% endfor %}
+    </div>
+</section>
+{% endfor %}
+
+{# Books that have no category yet #}
+{% if uncategorised %}
+<section class="shelf hue-0" id="category-none">
+    <header class="shelf__head">
+        <span class="dot" aria-hidden="true"></span>
+        <h2 class="shelf__title">More to explore</h2>
+        <a class="shelf__more" href="{% url 'my_books:book_list' %}">
+            Browse all books
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5.500L19.500 12 14 17.500"/></svg>
+        </a>
+    </header>
+
+    <div class="book-grid">
+        {% for book in uncategorised %}
+            {% include 'includes/book_card.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if not has_books %}
+<div class="empty">
+    <h2>Your shelf is empty</h2>
+    <p>Add the first book you want to learn from.</p>
+    <a href="{% url 'my_books:add_book' %}" class="btn btn-primary">Add a book</a>
+</div>
+{% endif %}
+
+<p class="empty" id="no-results" hidden>No books on this page match your search. Press Enter to search the whole library.</p>
+{% endblock %}

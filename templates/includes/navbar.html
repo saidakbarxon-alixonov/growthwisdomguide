@@ -1,0 +1,32 @@
+<!-- templates/includes/navbar.html : greeting, search and account button -->
+<header class="topbar">
+    <div class="topbar__hello">
+        {% if user.is_authenticated %}
+            <span class="topbar__small">Welcome back,</span>
+            <span class="topbar__name">{{ user.username }}</span>
+        {% else %}
+            <span class="topbar__small">Welcome to</span>
+            <span class="topbar__name">GrowthWisdomGuide</span>
+        {% endif %}
+        <p class="topbar__quote">Small daily improvements lead to remarkable results.</p>
+    </div>
+
+    <form class="search" role="search" action="{% url 'my_books:book_list' %}" method="get">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.500"/><path d="m16 16 4.500 4.500"/></svg>
+        <label class="sr-only" for="book-search">Search books</label>
+        <input type="search" id="book-search" name="q" value="{{ q|default:'' }}"
+               placeholder="Search by title, author or topic" autocomplete="off">
+    </form>
+
+    <div class="topbar__account">
+        {% if user.is_authenticated %}
+            <form action="{% url 'my_books:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Log out</button>
+            </form>
+        {% else %}
+            <a href="{% url 'my_books:login' %}" class="btn btn-ghost">Log in</a>
+            <a href="{% url 'my_books:register' %}" class="btn btn-primary">Sign up</a>
+        {% endif %}
+    </div>
+</header>
