@@ -53,8 +53,6 @@
 
     - Share page:
 
-<img width="1535" height="799" alt="image" src="https://github.com/user-attachments/assets/b8a0830f-1bd9-42e8-b0bd-0bdf8a276419" />
-
 <img width="1537" height="795" alt="image" src="https://github.com/user-attachments/assets/34450954-08ec-4178-a8c3-a563706fefd0" />
 
 
