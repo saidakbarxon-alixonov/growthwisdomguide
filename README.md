@@ -1,60 +1,135 @@
-                          📚 Growth Wisdom Guide
+                       # 📚 Growth Wisdom Guide
 
-     - A Django web application for browsing, discovering, and sharing books.
+A Django web application for browsing, discovering, and sharing books.
 
-                          ✨ Features
-                             - Browse books
-                             - View detailed book information
-                             - Organize books by category
-                             - User registration and authentication
+> Built as part of my backend development learning journey.
 
-                         🛠 Technologies Used
-                           - Python
-                           - Django
-                           - HTML
-                           - CSS
-                           - JavaScript
-                           - SQLite
+## ✨ Features
 
-                          🎯 Purpose
+- Browse books
+- View detailed book information
+- Organize books by category
+- User registration and authentication
+- Add and share books
 
-       - This project was created as part of my backend development learning journey.
-        It helps me practice Django, authentication, database design, and web application development.
+<!-- Only keep features that really work. Add new ones as you build them. -->
 
-                        🚀 Installation   
-                            - Clone the repository: git clone https://github.com/alixonovsaidakbarxon3-a11y/growthwisdomguide.git
-                            - cd growthwisdomguide
-                            - pip install -r requirements.txt
-                            - python manage.py migrate
-                            - python manage.py runserver
-                            
+## 🛠 Technologies Used
 
-                        🖼  Screenshots
+| Area | Tools |
+| --- | --- |
+| Backend | Python, Django |
+| Database | SQLite |
+| Frontend | HTML, CSS, JavaScript |
+| Dev tools | Git, GitHub, PyCharm, django-debug-toolbar |
 
-    - Home page:
+## 🖼 Screenshots
 
-<img width="1523" height="792" alt="image" src="https://github.com/user-attachments/assets/ba071dd3-c0bf-4105-97c1-73b67ef983b1" />
+### Home page
+<!-- Paste your existing home page image here -->
 
-    - Sign up page and Login page:
+### Sign up and login pages
+<!-- Paste your existing sign up / login images here -->
 
-<img width="1537" height="795" alt="image" src="https://github.com/user-attachments/assets/25b9c238-c7b0-4d3a-9134-77db02a66d72" />
+### Add book page
+<!-- Paste your existing add book images here -->
 
-<img width="1537" height="792" alt="image" src="https://github.com/user-attachments/assets/68acd30f-f3a2-4b96-adf6-94bbf69c2e8d" />
+### Book page
+<!-- Paste your existing book page image here -->
 
-    - Add book page:
+### Share page
+<!-- Paste your existing share page image here -->
 
-<img width="1537" height="739" alt="image" src="https://github.com/user-attachments/assets/2da82214-ede8-40a7-99cc-abc0f02f1d29" />
+## 🚀 Getting Started
 
-<img width="1537" height="797" alt="image" src="https://github.com/user-attachments/assets/070311e6-a62f-4f29-a67c-8a5e676afe00" />
+### Requirements
 
-    - Book page:
+- Python 3.x (write the version you use)
+- Git
 
-<img width="1535" height="794" alt="image" src="https://github.com/user-attachments/assets/87c697f6-bd31-42ef-a902-94bf78424a5f" />
+### Installation
 
-    - Share page:
+1. Clone the repository:
 
-<img width="1537" height="795" alt="image" src="https://github.com/user-attachments/assets/34450954-08ec-4178-a8c3-a563706fefd0" />
+   ```bash
+   git clone https://github.com/saidakbarxon-alixonov/growthwisdomguide.git
+   cd growthwisdomguide
+   ```
 
+2. Create and activate a virtual environment:
+
+   ```bash
+   # Windows
+   python -m venv .venv
+   .venv\Scripts\activate
+
+   # macOS / Linux
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+3. Install the dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Create the database tables:
+
+   ```bash
+   python manage.py migrate
+   ```
+
+5. (Optional) Create an admin account:
+
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+6. Start the development server:
+
+   ```bash
+   python manage.py runserver
+   ```
+
+7. Open <http://127.0.0.1:8000/> in your browser.
+
+## 📁 Project Structure
+
+```
+growthwisdomguide/
+├── my_books/        # Django app: books
+├── my_project/      # Project settings and main URLs
+├── static/          # CSS, JavaScript, images
+├── templates/       # HTML templates
+├── manage.py
+├── requirements.txt
+└── README.md
+```
+
+<!-- If you have other apps (for example main), add them here with a short comment. -->
+
+## 🎯 Purpose
+
+I created this project to practice Django, authentication, database design, and web application development.
+
+## 📖 What I Learned
+
+- <!-- e.g. how Django templates and base.html layouts work -->
+- <!-- e.g. building forms with ModelForm -->
+- <!-- e.g. using Git and GitHub from PyCharm -->
+
+## 🗺 Roadmap
+
+- [ ] <!-- next feature you want to build, e.g. book search -->
+- [ ] <!-- another idea -->
+- [ ] Move `SECRET_KEY` to an environment variable
+- [ ] Write tests
+
+## 👤 Author
+
+**Saidakbarxon Alixonov**
+GitHub: [@saidakbarxon-alixonov](https://github.com/saidakbarxon-alixonov)
 
 
 
