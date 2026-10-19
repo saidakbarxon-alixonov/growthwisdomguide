@@ -1,4 +1,4 @@
-                       # 📚 Growth Wisdom Guide
+##                        📚 Growth Wisdom Guide
 
 A Django web application for browsing, discovering, and sharing books.
 
@@ -123,8 +123,8 @@ I created this project to practice Django, authentication, database design, and 
 
 - [ ] <!-- next feature you want to build, e.g. book search -->
 - [ ] <!-- another idea -->
-- [ ] Move `SECRET_KEY` to an environment variable
-- [ ] Write tests
+- [ ] <!-- another idea -->
+- [ ] <!-- another idea -->
 
 ## 👤 Author
 
