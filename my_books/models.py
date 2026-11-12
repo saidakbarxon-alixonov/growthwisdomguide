@@ -36,7 +36,7 @@ class Status(models.TextChoices):
 class Book(models.Model):
 
     slug = models.SlugField(
-        max_length=100, unique=True, db_index=True, blank=True, help_text="e.g. atomic-habits")
+        max_length=100, unique=True, blank=True, help_text="e.g. atomic-habits")
     title = models.CharField(
         max_length=200)
     author = models.CharField(

@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
-from django.conf.global_settings import STATICFILES_DIRS, LOGIN_REDIRECT_URL
+load_dotenv()   # reads the .env file next to manage.py
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0eti&tnj0_6tuc)7f=i-om_=q!&%@(2vt#&0i&ar@yw=42qik8'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -40,6 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+
     'my_books',
 ]
 
@@ -81,11 +87,14 @@ WSGI_APPLICATION = 'my_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -137,7 +146,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 #   EMAIL_HOST_USER      your Gmail address
 #   EMAIL_HOST_PASSWORD  a Google "App password" (not your normal password)
 #   EMAIL_HOST           optional, defaults to smtp.gmail.com
-import os
+
 
 if os.environ.get('EMAIL_HOST_USER'):
     MAILERS = {
@@ -169,7 +178,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': 'errors.log',
+            'filename': BASE_DIR / 'debug.log',
         },
         'console': {
             'level': 'DEBUG',
@@ -188,3 +197,20 @@ LOGGING = {
 LOGIN_REDIRECT_URL = 'my_books:book_list'
 LOGOUT_REDIRECT_URL = 'my_books:book_list'
 LOGIN_URL = 'my_books:login'
+
+
+# Django REST Framework
+REST_FRAMEWORK = {
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',    # Postman / apps
+        'rest_framework.authentication.SessionAuthentication',  # browser login
+    ],
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',  # read: anyone, write: logged in
+    ],
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 9,   # same as BOOKS_PER_PAGE on your website
+}

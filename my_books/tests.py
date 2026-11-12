@@ -197,7 +197,7 @@ class ShareBookTests(TestCase):
         self.assertContains(response, 'try again a little later')
 
     def test_draft_books_cannot_be_shared(self):
-        draft = Book.objects.create(title='Draft', author='Me', status='draft')
+        draft = Book.bjects.create(title='Draft', author='Me', status='draft')
         self.client.login(username='sam', password='secret12345')
         response = self.client.get(reverse('my_books:share_book', args=[draft.slug]))
         self.assertEqual(response.status_code, 404)
