@@ -19,13 +19,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')), # <-- Route root traffic to main app
+    path('accounts/', include('django.contrib.auth.urls')),
 
-    # # NEW: the API lives under /api/
-    # path('api/', include('my_books.api_urls')),
-    # # NEW: login/logout buttons for the browsable API in your browser
-    # path('api-auth/', include('rest_framework.urls')),
+    path('api/', include('my_books.api_urls')),          # API under /api/
+    path('api-auth/', include('rest_framework.urls')),
 
-    path('', include('my_books.api_urls')),
-
+    path('', include('my_books.urls')),                  # your website
 ]

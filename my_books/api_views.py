@@ -75,7 +75,7 @@ class BookDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'slug'     # find the book by slug, like your website URLs do
 
     def get_queryset(self):
-        return with_categories(Book.published.select_related('added_by'))
+        return with_categories(Book.published.select_related('added_by') )
 
 
 class CategoryList(generics.ListAPIView):
